@@ -26,7 +26,8 @@ def main():
     # token = get_client_access_token_test(client_id, client_secret)
     # get_product_test(token)
     # get_product_details_test(token)
-    product_search(token, "Kellogg's Protein")
+    # product_search(token, "Kellogg's Protein")
+    product_search(token, "simple truth organic broth")
     # get_chains(token)
     # get_location_id(token, 90025)
     # get_loc_details(token, '70300759')
@@ -61,8 +62,8 @@ def get_token(client_id, client_secret):
     token_url = 'https://api.kroger.com/v1/connect/oauth2/token'
     headers = {'Content-Type': 'application/x-www-form-urlencoded'}
     params = {'grant_type': 'client_credentials', 'scope': ['product.compact']}
-    r = requests.post(token_url, headers=headers, data=params,
-                      auth=(client_id, client_secret))
+    # r = requests.post(token_url, headers=headers, data=params, auth=(client_id, client_secret))
+    r = requests.post(token_url, data=params, auth=(client_id, client_secret))
     token = r.json()["access_token"]
 
     return token
@@ -124,7 +125,7 @@ def product_search(token, name):
     westwood_id = '70300759'
     # prod_params = {'filter.locationID': westwood_id, 'filter.fulfillment': 'ais', 'filter.term': name,
     #                'filter.limit': '10', 'filter.brand': None, 'filter.product_id': None}
-    prod_params = {'filter.term': "Kellogg's Protein", 'filter.locationId': '70300759', 'filter.product_id': None,
+    prod_params = {'filter.term': name, 'filter.locationId': '70300759', 'filter.product_id': None,
                    'filter.brand': None, 'filter.fulfillment': 'ais', 'filter.limit': 10}
     print(prod_params)
     r = requests.get(product_url, headers=prod_head, params=prod_params)
